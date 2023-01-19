@@ -15,7 +15,7 @@ function Ak_n(n, k, a, b, T = Float64)
         sgn = -1
     end
     fact = T(factorial(k))*T(factorial(n-k))
-    return sgn * h * (1/fact) *IntegratePol(n, k)
+    return sgn * h * (1/fact) *IntegratePol(n, k, BigFloat)
 end
 
 function f(x, T = Float64)
@@ -27,11 +27,11 @@ function Newton_Cotes(n, f, a, b, T = Float64)
     xs = [T(a) + T(k)*h for k in 0:n]
     res = T(0)
     for k in 0:n
-        res += Ak_n(n, k, a, b)*f(xs[k+1])
+        res += Ak_n(n, k, a, b, BigFloat)*f(xs[k+1], BigFloat)
     end 
     return res
 end
 
 for n in 2:2:16
-    println(n, ": ", Newton_Cotes(n, f, -4, 4, Float64))
+    println(n, ": ", Newton_Cotes(n, f, -4, 4, BigFloat))
 end
